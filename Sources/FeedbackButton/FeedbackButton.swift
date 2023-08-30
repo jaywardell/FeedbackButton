@@ -58,12 +58,14 @@ public struct FeedbackButton<LABELSTYLE: LabelStyle>: View {
                 Label(primaryLabel, systemImage: "questionmark.bubble")
                     .labelStyle(labelStyle)
                     .imageScale(.large)
-                if subjects.count > 1 {
-                    Image(systemName: "ellipsis")
-                        .imageScale(.small)
-                        .accessibilityLabel(moreOptionsLabel)
-                        .offset(x: (21/34).em, y: (21/34).em)
-                }
+                    .overlay {
+                        if subjects.count > 1 {
+                            Image(systemName: "ellipsis")
+                                .imageScale(.small)
+                                .accessibilityLabel(moreOptionsLabel)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                        }
+                    }
             }
         }
         .contextMenu(menuItems: {
