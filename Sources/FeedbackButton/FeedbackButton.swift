@@ -54,19 +54,17 @@ public struct FeedbackButton<LABELSTYLE: LabelStyle>: View {
         options()
     #else
         Button(action: { userChose(subjects[0]) }) {
-            ZStack {
-                Label(primaryLabel, systemImage: "questionmark.bubble")
-                    .labelStyle(labelStyle)
-                    .imageScale(.large)
-                    .overlay {
-                        if subjects.count > 1 {
-                            Image(systemName: "ellipsis")
-                                .imageScale(.small)
-                                .accessibilityLabel(moreOptionsLabel)
-                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                        }
+            Label(primaryLabel, systemImage: "questionmark.bubble")
+                .labelStyle(labelStyle)
+                .imageScale(.large)
+                .overlay {
+                    if subjects.count > 1 {
+                        Image(systemName: "ellipsis")
+                            .imageScale(.small)
+                            .accessibilityLabel(moreOptionsLabel)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                     }
-            }
+                }
         }
         .contextMenu(menuItems: {
             options()
