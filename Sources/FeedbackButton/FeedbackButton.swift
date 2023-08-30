@@ -1,6 +1,6 @@
 //
 //  FeedbackButton.swift
-//  All Day iOS
+//  FeedbackButton
 //
 //  Created by Joseph Wardell on 2/19/23.
 //
