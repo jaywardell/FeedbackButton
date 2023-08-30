@@ -165,9 +165,11 @@ struct FeedbackButton_Previews: PreviewProvider {
             ("Help!!!", "Help"),
             ("Me", "Meeee"),
             ("Out", "OUTTTT")])
+        .previewDisplayName("Multiple Subjects")
         .previewLayout(.sizeThatFits)
-
+        
         FeedbackButton("someone@somewhere.net", subject: "Help")
-        .previewLayout(.sizeThatFits)
+            .previewDisplayName("Single Subject")
+            .previewLayout(.sizeThatFits)
     }
 }
