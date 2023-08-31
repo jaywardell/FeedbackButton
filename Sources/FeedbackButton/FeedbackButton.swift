@@ -22,6 +22,8 @@ public struct FeedbackButton<LABELSTYLE: LabelStyle>: View {
     let feedbackEmailAddress: String
     let labelStyle: LABELSTYLE
 
+    /// called whether the email is sent successfully or not.
+    /// use this to know when the UI is finished
     let completed: () -> Void
 
     @State private var showEmailComposer = false
