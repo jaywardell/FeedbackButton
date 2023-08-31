@@ -72,7 +72,7 @@ public struct FeedbackButton<LABELSTYLE: LabelStyle>: View {
             options()
         })
 
-        #if canImport(UIKit)
+        #if canImport(MessageUI)
         .sheet(item: $selectedSubject) { subject in
             EmailComposerView(emailData: emailData(for: subject), onError: couldNotSendEmail(error:), onSuccess: emailWasSent)
         }
@@ -86,7 +86,7 @@ public struct FeedbackButton<LABELSTYLE: LabelStyle>: View {
     }
 
     private func userChose(_ subject: Subject) {
-        #if canImport(UIKit)
+        #if canImport(MessageUI)
         if EmailComposerView.canSendEmail {
             print(#function)
             selectedSubject = subject
