@@ -39,7 +39,7 @@ public struct FeedbackButton<LABELSTYLE: LabelStyle>: View {
     }
     #endif
 
-    private func options() -> some View {
+    public func options() -> some View {
         Group {
             Button("\(subjects[0].title)…", action: {  userChose(subjects[0]) })
 
