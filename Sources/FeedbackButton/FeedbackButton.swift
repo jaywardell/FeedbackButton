@@ -145,6 +145,43 @@ public extension FeedbackButton where LABELSTYLE == IconOnlyLabelStyle {
     }
 }
 
+public extension FeedbackButton where LABELSTYLE == TitleOnlyLabelStyle {
+    init(_ address: String, subject: String, completed: @escaping ()->() = {}) {
+        self.feedbackEmailAddress = address
+        self.subjects = [Subject(title: subject, subject: subject)]
+        self.labelStyle = .titleOnly
+        self.completed = completed
+    }
+
+    init(_ address: String, subjects: [(String, String)]) {
+        assert(subjects.count > 0)
+
+        self.feedbackEmailAddress = address
+        self.subjects = subjects.map { Subject(title: $0.0, subject: $0.1) }
+        self.labelStyle = .titleOnly
+        self.completed = {}
+    }
+}
+
+@available(macOS 11.3, *)
+public extension FeedbackButton where LABELSTYLE == TitleAndIconLabelStyle {
+    init(_ address: String, subject: String, completed: @escaping ()->() = {}) {
+        self.feedbackEmailAddress = address
+        self.subjects = [Subject(title: subject, subject: subject)]
+        self.labelStyle = .titleAndIcon
+        self.completed = completed
+    }
+
+    init(_ address: String, subjects: [(String, String)]) {
+        assert(subjects.count > 0)
+
+        self.feedbackEmailAddress = address
+        self.subjects = subjects.map { Subject(title: $0.0, subject: $0.1) }
+        self.labelStyle = .titleAndIcon
+        self.completed = {}
+    }
+}
+
 extension FeedbackButton {
     func onUserSelected(_ completion: @escaping ()->()) -> FeedbackButton {
         FeedbackButton(subjects: subjects, feedbackEmailAddress: feedbackEmailAddress, labelStyle: labelStyle, completed: completion)
@@ -163,14 +200,21 @@ extension FeedbackButton {
 
 struct FeedbackButton_Previews: PreviewProvider {
     static var previews: some View {
-        FeedbackButton("someone@somewhere.net", subjects: [
+        FeedbackButton<IconOnlyLabelStyle>("someone@somewhere.net", subjects: [
             ("Help!!!", "Help"),
             ("Me", "Meeee"),
             ("Out", "OUTTTT")])
         .previewDisplayName("Multiple Subjects")
         .previewLayout(.sizeThatFits)
         
-        FeedbackButton("someone@somewhere.net", subject: "Help")
+        FeedbackButton<TitleAndIconLabelStyle>("someone@somewhere.net", subjects: [
+            ("Help!!!", "Help"),
+            ("Me", "Meeee"),
+            ("Out", "OUTTTT")])
+        .previewDisplayName("Multiple Subjects")
+        .previewLayout(.sizeThatFits)
+
+        FeedbackButton<TitleOnlyLabelStyle>("someone@somewhere.net", subject: "Help")
             .previewDisplayName("Single Subject")
             .previewLayout(.sizeThatFits)
     }
