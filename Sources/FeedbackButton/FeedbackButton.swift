@@ -60,7 +60,7 @@ public struct FeedbackButton<LABELSTYLE: LabelStyle>: View {
                 .labelStyle(labelStyle)
                 .imageScale(.large)
                 .overlay {
-                    if subjects.count > 1 {
+                    if subjects.count > 1 && labelStyle is IconOnlyLabelStyle {
                         Image(systemName: "ellipsis")
                             .imageScale(.small)
                             .accessibilityLabel(moreOptionsLabel)
