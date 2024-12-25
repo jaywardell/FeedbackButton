@@ -198,6 +198,7 @@ extension FeedbackButton {
 }
 
 
+@available(iOS 14.5, macOS 11.3, tvOS 14.5, watchOS 7.4, *)
 struct FeedbackButton_Previews: PreviewProvider {
     static var previews: some View {
         FeedbackButton<IconOnlyLabelStyle>("someone@somewhere.net", subjects: [
