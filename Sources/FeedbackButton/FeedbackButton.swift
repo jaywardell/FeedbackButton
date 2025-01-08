@@ -20,6 +20,7 @@ public struct FeedbackButton<LABELSTYLE: LabelStyle>: View {
 
     fileprivate let subjects: [Subject]
     let feedbackEmailAddress: String
+    let showSeparators: Bool
     let labelStyle: LABELSTYLE
 
     /// called whether the email is sent successfully or not.
@@ -43,7 +44,9 @@ public struct FeedbackButton<LABELSTYLE: LabelStyle>: View {
         Group {
             Button("\(subjects[0].title)…", action: {  userChose(subjects[0]) })
 
-            Divider()
+            if showSeparators {
+                Divider()
+            }
 
             ForEach(subjects.suffix(from: 1)) { subject in
                 Button("\(subject.title)…", action: {  userChose(subject) })
@@ -128,63 +131,69 @@ fileprivate extension FeedbackButton {
 }
 
 public extension FeedbackButton where LABELSTYLE == IconOnlyLabelStyle {
-    init(_ address: String, subject: String, completed: @escaping ()->() = {}) {
+    init(_ address: String, subject: String, showSeparators: Bool = true, completed: @escaping ()->() = {}) {
         self.feedbackEmailAddress = address
         self.subjects = [Subject(title: subject, subject: subject)]
         self.labelStyle = .iconOnly
         self.completed = completed
+        self.showSeparators = showSeparators
     }
 
-    init(_ address: String, subjects: [(String, String)]) {
+    init(_ address: String, subjects: [(String, String)], showSeparators: Bool = true) {
         assert(subjects.count > 0)
 
         self.feedbackEmailAddress = address
         self.subjects = subjects.map { Subject(title: $0.0, subject: $0.1) }
         self.labelStyle = .iconOnly
         self.completed = {}
+        self.showSeparators = showSeparators
     }
 }
 
 public extension FeedbackButton where LABELSTYLE == TitleOnlyLabelStyle {
-    init(_ address: String, subject: String, completed: @escaping ()->() = {}) {
+    init(_ address: String, subject: String, showSeparators: Bool = true, completed: @escaping ()->() = {}) {
         self.feedbackEmailAddress = address
         self.subjects = [Subject(title: subject, subject: subject)]
         self.labelStyle = .titleOnly
         self.completed = completed
+        self.showSeparators = showSeparators
     }
 
-    init(_ address: String, subjects: [(String, String)]) {
+    init(_ address: String, subjects: [(String, String)], showSeparators: Bool = true) {
         assert(subjects.count > 0)
 
         self.feedbackEmailAddress = address
         self.subjects = subjects.map { Subject(title: $0.0, subject: $0.1) }
         self.labelStyle = .titleOnly
         self.completed = {}
+        self.showSeparators = showSeparators
     }
 }
 
 @available(macOS 11.3, *)
 public extension FeedbackButton where LABELSTYLE == TitleAndIconLabelStyle {
-    init(_ address: String, subject: String, completed: @escaping ()->() = {}) {
+    init(_ address: String, subject: String, showSeparators: Bool = true, completed: @escaping ()->() = {}) {
         self.feedbackEmailAddress = address
         self.subjects = [Subject(title: subject, subject: subject)]
         self.labelStyle = .titleAndIcon
         self.completed = completed
+        self.showSeparators = showSeparators
     }
 
-    init(_ address: String, subjects: [(String, String)]) {
+    init(_ address: String, subjects: [(String, String)], showSeparators: Bool = true) {
         assert(subjects.count > 0)
 
         self.feedbackEmailAddress = address
         self.subjects = subjects.map { Subject(title: $0.0, subject: $0.1) }
         self.labelStyle = .titleAndIcon
         self.completed = {}
+        self.showSeparators = showSeparators
     }
 }
 
 extension FeedbackButton {
     func onUserSelected(_ completion: @escaping ()->()) -> FeedbackButton {
-        FeedbackButton(subjects: subjects, feedbackEmailAddress: feedbackEmailAddress, labelStyle: labelStyle, completed: completion)
+        FeedbackButton(subjects: subjects, feedbackEmailAddress: feedbackEmailAddress, showSeparators: showSeparators, labelStyle: labelStyle, completed: completion)
     }
 }
 
@@ -192,7 +201,7 @@ extension FeedbackButton {
     func labelStyle<LS: LabelStyle>(_ labelStyle: LS) -> FeedbackButton<LS> {
         FeedbackButton<LS>(subjects: self.subjects,
               feedbackEmailAddress: self.feedbackEmailAddress,
-              labelStyle: labelStyle,
+                           showSeparators: showSeparators, labelStyle: labelStyle,
               completed: self.completed)
     }
 }
